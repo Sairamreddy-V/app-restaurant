@@ -1,0 +1,100 @@
+.DishCardContainer {
+  border: 1px solid #c0d1c5;
+  border-radius: 7px;
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  overflow: auto;
+  scrollbar-width: none;
+}
+.DishTypeContainerVeg {
+  padding: 10px;
+  border: 2px solid green;
+  color: green;
+  align-self: flex-start;
+  margin-right: 7px;
+  background-color: green;
+}
+.DishTypeContainerNonVeg {
+  padding: 10px;
+  border: 2px solid red;
+  color: red;
+  align-self: flex-start;
+  margin-right: 7px;
+  background-color: red;
+}
+.DishTypeInner {
+  height: 20px;
+  width: 20px;
+  border-radius: 10px;
+  color: #ffffff;
+}
+.DishTextContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-right: 10px;
+  width: 150px;
+}
+.DishHeading {
+  color: #000000;
+  font-size: 16px;
+}
+.DishPricingContainer {
+  display: flex;
+  align-items: center;
+}
+.DishPricingPara {
+  color: #646968;
+  font-size: 13px;
+  margin-right: 5px;
+}
+.DishDescription {
+  color: #8e9493;
+  font-size: 10px;
+}
+.DishCustomContainer {
+  width: 80px;
+  height: 30px;
+  border-radius: 12px;
+  display: flex;
+  padding: 4px;
+  justify-content: space-between;
+  align-items: center;
+  background-color: green;
+  margin-bottom: 10px;
+}
+.DishCustomButton {
+  border: none;
+  background-color: transparent;
+  outline: none;
+  cursor: pointer;
+  color: #ffffff;
+}
+.DishQuantity {
+  color: #ffffff;
+  font-size: 22px;
+  align-self: center;
+}
+.DishAvailable {
+  color: green;
+  font-size: 14px;
+}
+.DishNotAvailable {
+  color: red;
+  font-size: 12px;
+}
+.DishCaloriesContainer {
+  align-self: center;
+  color: orange;
+  display: flex;
+  flex-direction: column;
+}
+.DishImage {
+  height: 150px;
+  width: 150px;
+  align-self: flex-start;
+}
