@@ -40,7 +40,7 @@ class DishCard extends Component {
         ? 'DishTypeContainerNonVeg'
         : 'DishTypeContainerVeg'
     return (
-      <li>
+      <li key={updatedDetails.dishName}>
         <div className="DishCardContainer">
           <div className={dishtype}>
             <span className="DishTypeInner">
