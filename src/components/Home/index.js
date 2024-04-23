@@ -5,15 +5,12 @@ import {IoCartSharp} from 'react-icons/io5'
 import DishCard from '../DishCard'
 
 class Home extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      details: [],
-      cartItems: 0,
-      showDishes: 0,
-      menuCategory: [],
-      isApiSuccess: false,
-    }
+  state = {
+    details: [],
+    cartItems: 0,
+    showDishes: 'Salads and Soup',
+    menuCategory: [],
+    isApiSuccess: false,
   }
 
   componentDidMount() {
@@ -26,7 +23,6 @@ class Home extends Component {
     )
     if (response.ok) {
       const data = await response.json()
-      console.log(data[0].restaurant_image)
       const updatedData = {
         restaurantName: data[0].restaurant_name,
         restaurantImage: data[0].restaurant_image,
@@ -35,27 +31,36 @@ class Home extends Component {
       }
       this.setState({
         details: updatedData,
-        menuCategory: updatedData.tableMenuList.map((eachOne, index) => ({
-          menuCategory: eachOne.menu_category,
-          isClicked: index === 0,
-        })),
+        menuCategory: updatedData.tableMenuList.map(eachOne => {
+          if (eachOne.menu_category_id === '11') {
+            return {
+              category: eachOne.menu_category,
+              isClicked: true,
+              id: eachOne.menu_category_id,
+            }
+          }
+          return {
+            category: eachOne.menu_category,
+            isClicked: false,
+            id: eachOne.menu_category_id,
+          }
+        }),
         isApiSuccess: true,
       })
     }
   }
 
   onCategoryClick = event => {
-    const value = event.target.outerText
+    const value = event.currentTarget.value
+    console.log(value)
     const {details, menuCategory} = this.state
-    const newMenuData = details.tableMenuList.map(eachOne => ({
-      menuCategory: eachOne.menu_category,
-      isClicked: eachOne.menu_category === value,
-    }))
-    const newShowDishes = details.tableMenuList.findIndex(
-      eachOne => eachOne.menu_category === value,
-    )
+    let newShowDishes
+    const newShow = details.tableMenuList.filter(eachOne => {
+      if (eachOne.menu_category_id === value) {
+        newShowDishes = eachOne.menu_category
+      }
+    })
     this.setState({
-      menuCategory: newMenuData,
       showDishes: newShowDishes,
     })
   }
@@ -91,14 +96,13 @@ class Home extends Component {
             ? 'CategoryButtonActive'
             : 'CategoryButton'
           return (
-            <li>
+            <li key={eachOne.id}>
               <button
-                key={eachOne.menuCategory}
                 className={buttonName}
-                value={eachOne.menuCategory}
+                value={eachOne.id}
                 onClick={this.onCategoryClick}
               >
-                <p className={name}>{eachOne.menuCategory}</p>
+                {eachOne.category}
               </button>
             </li>
           )
@@ -124,15 +128,23 @@ class Home extends Component {
 
   renderDishes = () => {
     const {isApiSuccess, details, showDishes} = this.state
+
+    // Find the matching category dishes. If no match is found, default to an empty object with an empty category_dishes array.
+    const dishes = details.tableMenuList.find(
+      eachOne => eachOne.menu_category === showDishes,
+    ) || {category_dishes: []}
+
+    // Log to ensure that the 'dishes' variable is properly assigned
+
     return (
       isApiSuccess && (
         <ul className="DishesUlcontainer">
-          {details.tableMenuList[showDishes].category_dishes.map(eachOne => (
+          {dishes.category_dishes.map(eachDish => (
             <DishCard
               quantityIncrement={this.onQuantityIncrement}
               quantityDecrement={this.onQuantityDecrement}
-              key={eachOne.dish_name}
-              details={eachOne}
+              key={eachDish.dish_id} // Ensure each dish_id is unique
+              details={eachDish}
             />
           ))}
         </ul>
@@ -155,3 +167,4 @@ class Home extends Component {
 }
 
 export default Home
+
